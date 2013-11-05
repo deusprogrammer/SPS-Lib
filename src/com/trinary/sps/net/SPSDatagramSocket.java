@@ -4,6 +4,7 @@
  */
 package com.trinary.sps.net;
 
+import com.trinary.sps.net.response.SPSResponsePacket;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
