@@ -5,7 +5,6 @@
 package com.trinary.sps;
 
 import com.trinary.sps.net.response.SPSDataPacket;
-import com.trinary.sps.net.response.SPSDiscoveryPacket;
 import com.trinary.sps.net.*;
 import java.io.IOException;
 import java.net.SocketException;
@@ -17,13 +16,14 @@ import java.net.UnknownHostException;
  */
 public class SmartPowerSocket {
     protected String socketName = "Socket";
+    protected Integer socketNumber;
     protected SmartPowerStrip strip;
     
     public SmartPowerSocket(SmartPowerStrip strip) {
         this.strip = strip;
     }
     
-    public SmartPowerSocket(SmartPowerStrip strip, String socketName) {
+    public SmartPowerSocket(SmartPowerStrip strip, String socketName, Integer socketNumber) {
         this(strip);
         this.socketName = socketName;
     }
@@ -32,56 +32,56 @@ public class SmartPowerSocket {
         return socketName;
     }
     
-    public void powerOn() throws UnknownHostException, SocketException, IOException {
+    public void powerOn() throws UnknownHostException, SocketException, IOException, Exception {
         SPSDatagramSocket socket = new SPSDatagramSocket();
         
         System.out.println("Sending discovery packet.");
-        SPSRequestPacket packet = new SPSRequestPacket(SPSOperation.POWER_ON);
+        SPSRequestPacket packet = new SPSRequestPacket(SPSOperation.POWER_ON, null, socketNumber.toString().getBytes());
         packet.setAddress(strip.ipAddress);
         packet.setPort(SmartPowerSystem.getPort());
         
         socket.send(packet);
     }
     
-    public void powerOff() throws UnknownHostException, SocketException, IOException {
+    public void powerOff() throws UnknownHostException, SocketException, IOException, Exception {
         SPSDatagramSocket socket = new SPSDatagramSocket();
         
         System.out.println("Sending discovery packet.");
-        SPSRequestPacket packet = new SPSRequestPacket(SPSOperation.POWER_OFF);
+        SPSRequestPacket packet = new SPSRequestPacket(SPSOperation.POWER_OFF, null, socketNumber.toString().getBytes());
         packet.setAddress(strip.ipAddress);
         packet.setPort(SmartPowerSystem.getPort());
         
         socket.send(packet);
     }
     
-    public void alarmOn() throws UnknownHostException, SocketException, IOException {
+    public void alarmOn() throws UnknownHostException, SocketException, IOException, Exception {
         SPSDatagramSocket socket = new SPSDatagramSocket();
         
         System.out.println("Sending discovery packet.");
-        SPSRequestPacket packet = new SPSRequestPacket(SPSOperation.SET_ALARM);
+        SPSRequestPacket packet = new SPSRequestPacket(SPSOperation.SET_ALARM, null, socketNumber.toString().getBytes());
         packet.setAddress(strip.ipAddress);
         packet.setPort(SmartPowerSystem.getPort());
         
         socket.send(packet);
     }
     
-    public void alarmOff() throws UnknownHostException, SocketException, IOException {
+    public void alarmOff() throws UnknownHostException, SocketException, IOException, Exception {
         SPSDatagramSocket socket = new SPSDatagramSocket();
         
         System.out.println("Sending discovery packet.");
-        SPSRequestPacket packet = new SPSRequestPacket(SPSOperation.RESET_ALARM);
+        SPSRequestPacket packet = new SPSRequestPacket(SPSOperation.RESET_ALARM, null, socketNumber.toString().getBytes());
         packet.setAddress(strip.ipAddress);
         packet.setPort(SmartPowerSystem.getPort());
         
         socket.send(packet);
     }
     
-    public boolean powerState() throws UnknownHostException, SocketException, IOException {
+    public boolean powerState() throws UnknownHostException, SocketException, IOException, Exception {
         SPSDatagramSocket socket = new SPSDatagramSocket();
         SPSDataPacket response = new SPSDataPacket();
         
         System.out.println("Sending discovery packet.");
-        SPSRequestPacket packet = new SPSRequestPacket(SPSOperation.GET_STATUS);
+        SPSRequestPacket packet = new SPSRequestPacket(SPSOperation.GET_STATUS, null, socketNumber.toString().getBytes());
         packet.setAddress(strip.ipAddress);
         packet.setPort(SmartPowerSystem.getPort());
         
@@ -91,12 +91,12 @@ public class SmartPowerSocket {
         return response.getStatus();
     }
     
-    public boolean alarmState() throws UnknownHostException, SocketException, IOException {
+    public boolean alarmState() throws UnknownHostException, SocketException, IOException, Exception {
         SPSDatagramSocket socket = new SPSDatagramSocket();
         SPSDataPacket response = new SPSDataPacket();
         
         System.out.println("Sending discovery packet.");
-        SPSRequestPacket packet = new SPSRequestPacket(SPSOperation.GET_ALARM);
+        SPSRequestPacket packet = new SPSRequestPacket(SPSOperation.GET_ALARM, null, socketNumber.toString().getBytes());
         packet.setAddress(strip.ipAddress);
         packet.setPort(SmartPowerSystem.getPort());
         
@@ -106,14 +106,14 @@ public class SmartPowerSocket {
         return response.getStatus();
     }
     
-    public void setName(String socketName) throws UnknownHostException, SocketException, IOException {
+    public void setName(String socketName) throws UnknownHostException, SocketException, IOException, Exception {
         // Truncate to 10 characters
         this.socketName = socketName;
         
         SPSDatagramSocket socket = new SPSDatagramSocket();
         
         System.out.println("Sending discovery packet.");
-        SPSRequestPacket packet = new SPSRequestPacket(SPSOperation.SET_SOCKET_NAME);
+        SPSRequestPacket packet = new SPSRequestPacket(SPSOperation.SET_SOCKET_NAME, null, socketNumber.toString().getBytes());
         packet.setAddress(strip.ipAddress);
         packet.setPort(SmartPowerSystem.getPort());
         

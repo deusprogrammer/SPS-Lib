@@ -30,10 +30,10 @@ public class SmartPowerSystem {
                     name, 
                     ipAddress, 
                     macAddress);
-            strip.getSockets()[0] = new SmartPowerSocket(strip, "SOCKET 1");
-            strip.getSockets()[1] = new SmartPowerSocket(strip, "SOCKET 2");
-            strip.getSockets()[2] = new SmartPowerSocket(strip, "SOCKET 3");
-            strip.getSockets()[3] = new SmartPowerSocket(strip, "SOCKET 4");
+            strip.getSockets()[0] = new SmartPowerSocket(strip, "SOCKET 1", 1);
+            strip.getSockets()[1] = new SmartPowerSocket(strip, "SOCKET 2", 2);
+            strip.getSockets()[2] = new SmartPowerSocket(strip, "SOCKET 3", 3);
+            strip.getSockets()[3] = new SmartPowerSocket(strip, "SOCKET 4", 4);
             powerStrips.add(strip);
         }
     }
@@ -46,7 +46,7 @@ public class SmartPowerSystem {
                         packet.getMacAddress());
             for (int i = 0; i < 4; i++) {
                 strip.getSockets()[i] = 
-                        new SmartPowerSocket(strip, packet.getSocketNames()[i]);
+                        new SmartPowerSocket(strip, packet.getSocketNames()[i], i);
             }
             powerStrips.add(strip);
         }
@@ -62,18 +62,24 @@ public class SmartPowerSystem {
         return null;
     }
     
+    public static ArrayList<SmartPowerStrip> getPowerStrips() {
+        return powerStrips;
+    }
+    
     protected static Boolean powerStripAlreadyDiscovered(String macAddress) {
         return getPowerStrip(macAddress) != null;
     }
     
-    static public void discover(String broadcastIp, Integer broadcastPort, long timeout) throws UnknownHostException, SocketException, IOException {
+    public static void discover(String broadcastIp, Integer port, long timeout) throws UnknownHostException, SocketException, IOException {
+        SmartPowerSystem.port = port;
+        
         SPSDatagramSocket socket = new SPSDatagramSocket();
         SPSDiscoveryPacket response = new SPSDiscoveryPacket();
         
         System.out.println("Sending discovery packet.");
         SPSRequestPacket packet = new SPSRequestPacket(SPSOperation.DISCOVERY);
         packet.setAddress(broadcastIp);
-        packet.setPort(broadcastPort);
+        packet.setPort(port);
         
         socket.send(packet);
         
