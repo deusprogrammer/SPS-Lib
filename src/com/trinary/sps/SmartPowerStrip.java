@@ -4,6 +4,12 @@
  */
 package com.trinary.sps;
 
+import com.trinary.sps.net.response.SPSDiscoveryPacket;
+import com.trinary.sps.net.*;
+import java.io.IOException;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
 /**
  *
  * @author mmain
@@ -26,11 +32,11 @@ public class SmartPowerStrip {
         return sockets;
     }
     
-    public void powerOnSocket(int socketNumber) {
+    public void powerOnSocket(int socketNumber) throws UnknownHostException, SocketException, IOException, Exception {
         sockets[socketNumber].powerOn();
     }
     
-    public void powerOnSocket(String socketName) {
+    public void powerOnSocket(String socketName) throws UnknownHostException, SocketException, IOException, Exception {
         for (SmartPowerSocket sps : sockets) {
             if (sps.getSocketName().equals(socketName)) {
                 sps.powerOn();
@@ -38,11 +44,11 @@ public class SmartPowerStrip {
         }
     }
     
-    public void powerOffSocket(int socketNumber) {
+    public void powerOffSocket(int socketNumber) throws UnknownHostException, SocketException, IOException, Exception {
         sockets[socketNumber].powerOff();
     }
     
-    public void powerOffSocket(String socketName) {
+    public void powerOffSocket(String socketName) throws UnknownHostException, SocketException, IOException, Exception {
         for (SmartPowerSocket sps : sockets) {
             if (sps.getSocketName().equals(socketName)) {
                 sps.powerOff();
@@ -50,11 +56,11 @@ public class SmartPowerStrip {
         }
     }
     
-    public void alarmOn(int socketNumber) {
+    public void alarmOn(int socketNumber) throws UnknownHostException, SocketException, IOException, Exception {
         sockets[socketNumber].alarmOn();
     }
     
-    public void alarmOn(String socketName) {
+    public void alarmOn(String socketName) throws UnknownHostException, SocketException, IOException, Exception {
         for (SmartPowerSocket sps : sockets) {
             if (sps.getSocketName().equals(socketName)) {
                 sps.alarmOn();
@@ -62,11 +68,11 @@ public class SmartPowerStrip {
         }
     }
     
-    public void alarmOff(int socketNumber) {
+    public void alarmOff(int socketNumber) throws UnknownHostException, SocketException, IOException, Exception {
         sockets[socketNumber].alarmOff();
     }
     
-    public void alarmOff(String socketName) {
+    public void alarmOff(String socketName) throws UnknownHostException, SocketException, IOException, Exception {
         for (SmartPowerSocket sps : sockets) {
             if (sps.getSocketName().equals(socketName)) {
                 sps.alarmOff();
@@ -74,13 +80,27 @@ public class SmartPowerStrip {
         }
     }
     
-    public void setMac(String macAddress) {
+    public void setMac(String macAddress) throws UnknownHostException, SocketException, IOException {
         this.macAddress = macAddress;
-        // Create and send SPSRequestPacket
+        SPSDatagramSocket socket = new SPSDatagramSocket();
+        
+        System.out.println("Sending discovery packet.");
+        SPSRequestPacket packet = new SPSRequestPacket(SPSOperation.SET_MAC);
+        packet.setAddress(ipAddress);
+        packet.setPort(SmartPowerSystem.getPort());
+        
+        socket.send(packet);
     }
     
-    public void setName(String name) {
+    public void setName(String name) throws UnknownHostException, SocketException, IOException {
         this.name = name;
-        // Create and send SPSRequestPacket
+        SPSDatagramSocket socket = new SPSDatagramSocket();
+        
+        System.out.println("Sending discovery packet.");
+        SPSRequestPacket packet = new SPSRequestPacket(SPSOperation.SET_STRIP_NAME);
+        packet.setAddress(ipAddress);
+        packet.setPort(SmartPowerSystem.getPort());
+        
+        socket.send(packet);
     }
 }
