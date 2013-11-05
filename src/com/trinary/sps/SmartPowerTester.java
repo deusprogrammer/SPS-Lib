@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * @author deusp_000
  */
 public class SmartPowerTester {
-    public static void main() {
+    public static void main(String args[]) {
         // Discover all smart power strips
         try {
             SmartPowerSystem.discover("192.168.2.255", 8888, 60 * 1000);

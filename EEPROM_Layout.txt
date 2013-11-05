@@ -1,0 +1,11 @@
+EEPROM LAYOUT
+
+bytes	|	field			|	size
+-----------------------------------------
+ 0- 7	|	flags			|	 8 bytes
+ 8-13	|	mac-address		|	 6 bytes
+14-23	|	name			|	10 bytes
+24-33	|	socket-name[0]	|	10 bytes
+34-43	|	socket-name[1]	|	10 bytes
+44-53	|	socket-name[2]	|	10 bytes
+54-63	|	socket-name[3]	|	10 bytes
