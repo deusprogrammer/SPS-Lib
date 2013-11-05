@@ -1,9 +1,12 @@
-EEPROM LAYOUT
+*****************
+* EEPROM LAYOUT *
+*****************
 
 -------------------------------------
 | BYTES | FIELD          | SIZE     |
 |-----------------------------------|
-|  0- 7 | flags          |  8 bytes |
+|  0- 3 | flags          |  4 bytes |
+|  4- 7 | ip-address     |  4 bytes |
 |  8-13 | mac-address    |  6 bytes |
 | 14-23 | name           | 10 bytes |
 | 24-33 | socket-name[0] | 10 bytes |
@@ -12,7 +15,9 @@ EEPROM LAYOUT
 | 54-63 | socket-name[3] | 10 bytes |
 -------------------------------------
 
-FLAGS
+*********
+* FLAGS *
+*********
 
 ------------------------------------------------
 | BYTE | FLAG   |         VALUES               |
