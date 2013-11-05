@@ -1,7 +1,7 @@
 EEPROM LAYOUT
 
 -------------------------------------
-| BYTES | FIELD          | SIZE     |
+| bytes | field          | size     |
 |-----------------------------------|
 |  0- 7 | flags          |  8 bytes |
 |  8-13 | mac-address    |  6 bytes |
@@ -15,7 +15,7 @@ EEPROM LAYOUT
 FLAGS
 
 ------------------------------------------------
-| BYTE | FLAG   |         VALUES               |
+| byte | flag   |         values               |
 |------|--------|------------------------------|
 | 0    | setup  |      255 = not setup         |
 |      |        |        0 = setup             |
